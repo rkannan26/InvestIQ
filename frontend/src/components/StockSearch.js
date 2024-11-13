@@ -1,51 +1,38 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const StockSearch = () => {
   const [symbol, setSymbol] = useState('');
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(`http://localhost8000/api/stock/${symbol}`);
-      setData(response.data);
-    } catch (error) {
-      console.error("Error fetching stock data:", error);
-      setError("Failed to fetch stock data. Please try again.");
-    } finally {
-      setLoading(false);
+  const handleSearch = () => {
+    if (symbol.trim()) {
+      navigate(`/stock/${symbol.toUpperCase()}`);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
   return (
-    <div className="p-4">
+    <div className="relative mt-20 z-20">
       <input
         type="text"
         value={symbol}
         onChange={(e) => setSymbol(e.target.value)}
-        placeholder="Enter stock symbol"
-        className="border p-2 rounded"
+        onKeyPress={handleKeyPress}
+        placeholder="Search for stocks..."
+        className="px-4 py-2 w-80 rounded-full border-2 border-gray-300 focus:outline-none focus:border-blue-500"
       />
       <button 
-        onClick={handleSearch} 
-        className="ml-2 p-2 bg-blue-500 text-white rounded"
-        disabled={loading}
+        onClick={handleSearch}
+        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-full"
       >
-        {loading ? 'Searching...' : 'Search'}
+        Search
       </button>
-
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-
-      {data && (
-        <div className="mt-4">
-          <h2>Stock Data for {symbol.toUpperCase()}:</h2>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      )}
     </div>
   );
 };

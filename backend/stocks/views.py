@@ -5,11 +5,20 @@ from django.conf import settings
 
 class StockDataView(View):
     def get(self, request, symbol):
-        api_key = settings.ALPHA_VANTAGE_API_KEY
-        url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}'
-        response = requests.get(url)
-        if response.status_code == 200:
+        api_key = settings.FMP_API_KEY
+        url = f'https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={api_key}'
+        
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
             data = response.json()
-            return JsonResponse(data)
-        else:
-            return JsonResponse({'error': 'Failed to fetch data'}, status=400)
+            
+            if data:
+                stock_data = data[0]  # FMP returns a list with one item
+                return JsonResponse(stock_data)
+            else:
+                return JsonResponse({'error': 'No data found for the given symbol'}, status=404)
+        
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching stock data: {str(e)}")  # Add this line for debugging
+            return JsonResponse({'error': f'Error fetching stock data: {str(e)}'}, status=500)

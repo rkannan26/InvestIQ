@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import "tailwindcss/tailwind.css";
+import StockSearch from './StockSearch';
 
 const LandingPage = () => {
   const [animationState, setAnimationState] = useState("initial");
@@ -58,11 +59,7 @@ const LandingPage = () => {
         transition={{ delay: 1.5, duration: 0.8 }}
         className="relative mt-20 z-20"
       >
-        <input
-          type="text"
-          placeholder="Search for stocks..."
-          className="px-4 py-2 w-80 rounded-full border-2 border-gray-300 focus:outline-none focus:border-blue-500"
-        />
+        <StockSearch />
       </motion.div>
 
       {/* Rotating Stocks */}

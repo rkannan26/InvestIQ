@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
-ALPHA_VANTAGE_API_KEY = '6PQBCE8JO2G91P2K'
+FMP_API_KEY = 'rfokAG5WafDAzthxK0obFDQqK91v94MB'
 APPEND_SLASH = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",

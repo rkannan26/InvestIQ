@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
-import StockSearch from './components/StockSearch';
+import StockDetailsPage from './components/StockDetailsPage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/search" element={<StockSearch />} />
+        <Route path="/stock/:symbol" element={<StockDetailsPage />} />
       </Routes>
     </Router>
   );
