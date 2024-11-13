@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import StockDataView
+from . import views
 
 urlpatterns = [
-    path('api/stock/<str:symbol>/', StockDataView.as_view(), name='stock_data'),
+    path('api/stock/<str:symbol>/', views.get_stock_data, name='stock_data'),
 ]
