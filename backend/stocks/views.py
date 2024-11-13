@@ -8,5 +8,8 @@ class StockDataView(View):
         api_key = settings.ALPHA_VANTAGE_API_KEY
         url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={api_key}'
         response = requests.get(url)
-        data = response.json()
-        return JsonResponse(data)
+        if response.status_code == 200:
+            data = response.json()
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'error': 'Failed to fetch data'}, status=400)
